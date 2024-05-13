@@ -124,5 +124,6 @@ class Backdoor
 
     static void RemoveBackdoor()
     {
-        string filePath = @"C:\path\to\your\backdoor.exe"; // Замените
+        string filePath = @"C:\path\to\your\backdoor.exe";
     }
+    
