@@ -12,18 +12,21 @@ function coding {
             for word in $line
             do
                 read -s -n 1 k <&1
-                if [ $k ]
+                if [[ $k ]]
                 then
                     printf "$color_open$word$red_close "
                     continue
+                else
+                    printf "\n"
+                    ending  
                 fi
             done
             IFS=:
             printf "\n"
         done
-        sleep 2
-        ending
     done
+
+    
 }
 
 function style_select {
@@ -93,7 +96,6 @@ function language_select {
     done
 
     echo "Супер, пора приступать!"
-    sleep 2
     loading_icon 8 "Начинаем взлом!!!"
     coding
 }
@@ -122,7 +124,8 @@ function loading_icon {
 
 function ending {
     loading_icon 8 "Взлом Пентагона!!!"
-    number=$(( $RANDOM % 2))
+    # number=$(( $RANDOM % 2))
+    number=1
     if [[ $number -eq 1 ]]
     then
         echo "Пентагон успешно взломан, поздравляю!!!!"
@@ -163,7 +166,7 @@ function mining {
 function mining_choise {
     read -p "Хотите взломать счёт одного из сотрудников Пентагона и украсть его Биткоины? [y/n]: " choice
 
-    if [[ $choice -eq 'y' ]]
+    if [[ $choice == 'y' ]]
     then
         echo "Отлично!"
         mining
